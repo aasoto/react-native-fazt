@@ -1,0 +1,12 @@
+/*****------ REACT NATIVE CON EXPO -----*****/
+
+//instalar expo de manera global
+//esto se debe ejecutar en el CMD en la carpeta raíz, es decir la que sale por defecto cuando un abre la terminal con la tecla windows R 
+npm install -g expo-cli
+
+//para crear un nuevo proyecto
+expo init my-app
+
+//para instalar ImagePicker de Expo 
+expo install expo-image-picker
+
