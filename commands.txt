@@ -10,3 +10,5 @@ expo init my-app
 //para instalar ImagePicker de Expo 
 expo install expo-image-picker
 
+//para instalar expo-sharing
+npx expo install expo-sharing

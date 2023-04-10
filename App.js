@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Alert, Button, Image, Text, TouchableOpacity, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as Sharing from 'expo-sharing';
 import { useState } from 'react';
 
 export default function App() {
@@ -22,6 +23,15 @@ export default function App() {
     }
 
     setSelectedImage({localUri: pickerResult.assets[0].uri});
+  }
+
+  const openShareDialog = async () => {
+    if (!(await Sharing.isAvailableAsync())) { //comprueba si el dispositivo puede compartir
+      alert('Compartir no está disponible en esta plataforma.');
+      return;
+    }
+    
+    await Sharing.shareAsync(selectedImage.localUri); //comparte la imagen
   }
 
   return (
@@ -52,23 +62,34 @@ export default function App() {
 
       <Text className="text-white text-xl">Selecciona una imagen</Text>
 
-      {/* Imagen tomada de internet */}
-      <Image 
-        source={{
-          uri: 
-            selectedImage !== null 
-              ? selectedImage.localUri
-              : 'https://picsum.photos/200/200'
-        }}
-        className="w-40 h-40 rounded-full"
-      />
-
       <TouchableOpacity
         onPress={openImagePickerAsync}
-        className="bg-green-600 px-5 py-2 rounded-full shadow"
       >
-        <Text className="text-white capitalize text-lg">Abrir galería</Text>
+        {/* Imagen tomada de internet */}
+        <Image 
+          source={{
+            uri: 
+              selectedImage !== null 
+                ? selectedImage.localUri
+                : 'https://picsum.photos/200/200'
+          }}
+          className="w-40 h-40 rounded-full"
+        />
       </TouchableOpacity>
+
+      {
+        selectedImage ?
+        <TouchableOpacity
+          onPress={openShareDialog}
+          className="bg-green-600 px-5 py-2 rounded-full shadow"
+        >
+          <Text className="text-white capitalize text-lg">
+            Compartir imagen
+          </Text>
+        </TouchableOpacity>
+        : <View/>
+      }
+
       <StatusBar style="auto" />
     </View>
   );
